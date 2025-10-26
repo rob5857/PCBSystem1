@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PCB System - Portal Escolar</title>
+
+  <!-- Fuentes y estilos -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <!-- 🔝 Barra de navegación -->
+  <header>
+    <nav class="navbar">
+      <div class="nav-container">
+        <h1 class="logo">PCB System</h1>
+        <ul class="nav-menu">
+          <li><a href="#home">Inicio</a></li>
+          <li><a href="#classes">Cursos</a></li>
+          <li><a href="calendario.html">Vida escolar</a></li>
+          <li><a href="comunidad.html">Comunidad</a></li>
+          <li><a href="#contact">Contacto</a></li>
+          <li><button class="login-button" onclick="window.location.href='login.html'">Login</button></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 🎞️ Hero Banner con Slideshow -->
+  <section id="home" class="hero">
+    <div class="hero-slideshow">
+      <img src="FotoBanner1.jpg" class="slide active" alt="Slide 1">
+      <img src="FotoBanner2.jpg" class="slide" alt="Slide 2">
+      <img src="FotoBanner3.jpg" class="slide" alt="Slide 3">
+    </div>
+    <div class="overlay"></div>
+
+    <div class="hero-content" id="heroContent">
+      <h1 class="hero-title">Bienvenido a la Superior Pablo Colón Berdecia</h1>
+      <p class="hero-subtitle">Tu plataforma educativa para gestionar clases, tareas y horarios</p>
+      <div class="hero-buttons">
+        <button class="cta-button primary" onclick="scrollToSection('classes')">Ver Clases</button>
+        <button class="cta-button secondary" onclick="scrollToSection('contact')">Contáctanos</button>
+      </div>
+    </div>
+
+    <!-- Botones del slideshow -->
+    <button class="slide-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+    <button class="slide-btn next" onclick="changeSlide(1)">&#10095;</button>
+
+    <!-- Indicadores -->
+    <div class="slide-indicators" id="slideIndicators">
+      <span class="dot active" onclick="goToSlide(0)"></span>
+      <span class="dot" onclick="goToSlide(1)"></span>
+      <span class="dot" onclick="goToSlide(2)"></span>
+    </div>
+  </section>
+
+  <!-- 📚 Sección de cursos -->
+  <section id="classes">
+    <h2>Nuestros Talleres</h2>
+    <p>Explora los cursos vocacionales de CompuTec, Electrónica, Enfermería y más.</p>
+  </section>
+
+  <!-- 📞 Sección de contacto -->
+  <section id="contact">
+    <h2>Contáctanos</h2>
+    <p>¿Tienes dudas o sugerencias? Escríbenos a <strong>pcb@escuela.edu.pr</strong></p>
+  </section>
+
+  <!-- ⚙️ Pie de página -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Pablo Colón Berdecia. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- 🎬 Script del slideshow -->
+  <script>
+    const slides = document.querySelectorAll('.hero-slideshow .slide');
+    const dots = document.querySelectorAll('.dot');
+    const heroContent = document.getElementById('heroContent');
+
+    const slideTexts = [
+      {
+        title: "Bienvenido a la Superior Pablo Colón Berdecia",
+        subtitle: "Tu plataforma educativa para gestionar clases, tareas y horarios"
+      },
+      {
+        title: "Explora el futuro con CompuTec",
+        subtitle: "Aprende robótica, IA, programación y tecnología moderna"
+      },
+      {
+        title: "Innovación, aprendizaje y comunidad",
+        subtitle: "Conectamos talento con tecnología para transformar la educación"
+      }
+    ];
+
+    let currentSlide = 0;
+    let slideInterval = setInterval(nextSlide, 6000);
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+        dots[i].classList.toggle('active', i === index);
+      });
+
+      heroContent.classList.add('fade-out');
+      setTimeout(() => {
+        heroContent.innerHTML = `
+          <h1 class="hero-title">${slideTexts[index].title}</h1>
+          <p class="hero-subtitle">${slideTexts[index].subtitle}</p>
+          <div class="hero-buttons">
+            <button class="cta-button primary" onclick="scrollToSection('classes')">Ver Clases</button>
+            <button class="cta-button secondary" onclick="scrollToSection('contact')">Contáctanos</button>
+          </div>
+        `;
+        heroContent.classList.remove('fade-out');
+        heroContent.classList.add('fade-in');
+      }, 400);
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function changeSlide(direction) {
+      clearInterval(slideInterval);
+      currentSlide = (currentSlide + direction + slides.length) % slides.length;
+      showSlide(currentSlide);
+      slideInterval = setInterval(nextSlide, 6000);
+    }
+
+    function goToSlide(index) {
+      clearInterval(slideInterval);
+      currentSlide = index;
+      showSlide(currentSlide);
+      slideInterval = setInterval(nextSlide, 6000);
+    }
+
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
